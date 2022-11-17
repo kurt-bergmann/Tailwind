@@ -3,6 +3,10 @@
   <persistence-unit name="InventoryPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <non-jta-data-source>java:/comp/env/jdbc/inventorydb</non-jta-data-source>
+    <class>models.Item</class>
+    <class>models.Role</class>
+    <class>models.Category</class>
+    <class>models.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
   </persistence-unit>
 </persistence>
