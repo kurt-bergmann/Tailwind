@@ -1,9 +1,12 @@
 package dataaccess;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import models.*;
+import services.UserService;
 
 public class UserDB {
 
@@ -60,6 +63,7 @@ public class UserDB {
             trans.commit();
 
         } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
             // Rollback if there is an error
             trans.rollback();
@@ -85,6 +89,7 @@ public class UserDB {
             trans.commit();
 
         } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
             // Rollback if there is an error
             trans.rollback();
@@ -119,6 +124,7 @@ public class UserDB {
             trans.commit();
 
         } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
             // Rollback if there is an error
             trans.rollback();

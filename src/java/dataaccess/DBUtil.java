@@ -8,7 +8,7 @@ public class DBUtil {
 
    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
         Persistence.createEntityManagerFactory("InventoryPU");
-        // The UserPU is the persistance unit name
+     
     
     public static EntityManagerFactory getEmFactory() {
         return ENTITY_MANAGER_FACTORY;

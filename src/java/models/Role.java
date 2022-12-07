@@ -44,14 +44,14 @@ public class Role implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER)
     private List<User> userList;
 
-    public Role() {
+    private Role() {
     }
 
-    public Role(Integer roleId) {
+    private Role(Integer roleId) {
         this.roleId = roleId;
     }
 
-    public Role(Integer roleId, String roleName) {
+    private Role(Integer roleId, String roleName) {
         this.roleId = roleId;
         this.roleName = roleName;
     }
