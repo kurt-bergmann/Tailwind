@@ -8,11 +8,9 @@ package models;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,17 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
-    , @NamedQuery(name = "Item.findByItemId", query = "SELECT i FROM Item i WHERE i.itemId = :itemId")
+    , @NamedQuery(name = "Item.findByItemId", query = "SELECT i FROM Item i WHERE i.itemPK.itemId = :itemId")
     , @NamedQuery(name = "Item.findByItemName", query = "SELECT i FROM Item i WHERE i.itemName = :itemName")
-    , @NamedQuery(name = "Item.findByPrice", query = "SELECT i FROM Item i WHERE i.price = :price")})
+    , @NamedQuery(name = "Item.findByPrice", query = "SELECT i FROM Item i WHERE i.price = :price")
+    , @NamedQuery(name = "Item.findByOwner", query = "SELECT i FROM Item i WHERE i.itemPK.owner = :owner")})
 public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "item_id")
-    private Integer itemId;
+    @EmbeddedId
+    protected ItemPK itemPK;
     @Basic(optional = false)
     @Column(name = "item_name")
     private String itemName;
@@ -49,29 +45,33 @@ public class Item implements Serializable {
     @JoinColumn(name = "category", referencedColumnName = "category_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Category category;
-    @JoinColumn(name = "owner", referencedColumnName = "email")
+    @JoinColumn(name = "owner", referencedColumnName = "email", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private User owner;
+    private User user;
 
     public Item() {
     }
 
-    public Item(Integer itemId) {
-        this.itemId = itemId;
+    public Item(ItemPK itemPK) {
+        this.itemPK = itemPK;
     }
 
-    public Item(Integer itemId, String itemName, double price) {
-        this.itemId = itemId;
+    public Item(ItemPK itemPK, String itemName, double price) {
+        this.itemPK = itemPK;
         this.itemName = itemName;
         this.price = price;
     }
 
-    public Integer getItemId() {
-        return itemId;
+    public Item(int itemId, String owner) {
+        this.itemPK = new ItemPK(itemId, owner);
     }
 
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
+    public ItemPK getItemPK() {
+        return itemPK;
+    }
+
+    public void setItemPK(ItemPK itemPK) {
+        this.itemPK = itemPK;
     }
 
     public String getItemName() {
@@ -98,18 +98,18 @@ public class Item implements Serializable {
         this.category = category;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (itemId != null ? itemId.hashCode() : 0);
+        hash += (itemPK != null ? itemPK.hashCode() : 0);
         return hash;
     }
 
@@ -120,7 +120,7 @@ public class Item implements Serializable {
             return false;
         }
         Item other = (Item) object;
-        if ((this.itemId == null && other.itemId != null) || (this.itemId != null && !this.itemId.equals(other.itemId))) {
+        if ((this.itemPK == null && other.itemPK != null) || (this.itemPK != null && !this.itemPK.equals(other.itemPK))) {
             return false;
         }
         return true;
@@ -128,7 +128,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "models.Item[ itemId=" + itemId + " ]";
+        return "models.Item[ itemPK=" + itemPK + " ]";
     }
     
 }

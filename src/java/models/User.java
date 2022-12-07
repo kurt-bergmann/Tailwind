@@ -56,8 +56,6 @@ public class User implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Role role;
 
-    private User() {
-    }
 
     private User(String email) {
         this.email = email;
@@ -152,6 +150,9 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "models.User[ email=" + email + " ]";
+    }
+
+    public User() {
     }
     
 }

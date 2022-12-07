@@ -77,5 +77,27 @@ public class UserService {
         
         return null;
     }
+
+    public static String getFirstName(String email) {
+        try {
+            return new UserDB().findUser(email).getFirstName();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+    public static String getLastName(String email) {
+        try {
+            return new UserDB().findUser(email).getLastName();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
     
 }

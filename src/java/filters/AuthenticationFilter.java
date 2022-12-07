@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
             HttpServletRequest httpRequest = (HttpServletRequest)request;
             HttpSession session = httpRequest.getSession();
             
-            String email = (String) session.getAttribute("email");
+            String email = (String) session.getAttribute("userEmail");
             
             if (email == null) {
                 HttpServletResponse httpResponse = (HttpServletResponse)response;

@@ -44,8 +44,6 @@ public class Role implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER)
     private List<User> userList;
 
-    private Role() {
-    }
 
     private Role(Integer roleId) {
         this.roleId = roleId;
@@ -104,6 +102,9 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return "models.Role[ roleId=" + roleId + " ]";
+    }
+
+    public Role() {
     }
     
 }

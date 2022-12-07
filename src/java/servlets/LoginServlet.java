@@ -65,8 +65,11 @@ public class LoginServlet extends HttpServlet {
                         request.setAttribute("invalid", "Invalid login details");
                     } else {
                         HttpSession session = request.getSession();
+                        
                         // Set the session variable for email and name
-                        session.setAttribute("email", userEmail);
+                        session.setAttribute("userEmail", userEmail);
+                        session.setAttribute("userFirstName", UserService.getFirstName(email));
+                        session.setAttribute("userFirstName", UserService.getLastName(email));
                         
                         // Set welcome message for home page
                         session.setAttribute("currentUser", true);
@@ -94,8 +97,12 @@ public class LoginServlet extends HttpServlet {
                         request.setAttribute("lastName", lastName);
                     } else {
                         HttpSession session = request.getSession();
+                        
                         // Set the session variable for email and name
-                        session.setAttribute("email", newUserEmail);
+                        session.setAttribute("userEmail", newUserEmail);
+                        session.setAttribute("userFirstName", UserService.getFirstName(email));
+                        session.setAttribute("userFirstName", UserService.getLastName(email));
+                        
                         // Inform the user that their registration was successfull on the home page
                         session.setAttribute("newUser", true);
                     }
