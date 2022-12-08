@@ -52,7 +52,8 @@
                                 
                                 <%-- Item Price --%>
                                 <td>
-                                    <input type="number" name="${item.getItemId()}Price" value="${item.getPrice()}" min="0">
+                                    <input type="number" name="${item.getItemId()}Price" value="${item.getPrice()}" min="0"
+                                           step="0.01">
                                 </td>
                                 
                                 <%-- Item categories --%>
@@ -89,7 +90,6 @@
 
             <%-- Just view inventory --%>
             <c:otherwise>
-                <form method="post" action="home">
                     <table>
                         <tr>
                             <th>Item Name</th>
@@ -113,10 +113,11 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                            
                     </table>
-                    <input type="submit" value="Edit Inventory" name="action">
-                </form>
+                        
+                   <button>
+                        <a href="home?editInventory" style="text-decoration: none; color: black">Edit Inventory</a>
+                    </button>
             </c:otherwise>
 
         </c:choose>
