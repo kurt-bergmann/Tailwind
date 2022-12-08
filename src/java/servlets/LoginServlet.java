@@ -16,11 +16,10 @@ public class LoginServlet extends HttpServlet {
         // Logout user
         String logout = request.getParameter("logout");
 
-        HttpSession session = request.getSession();
-        session.invalidate();
-
         if (logout != null) {
             // Logout user
+            HttpSession session = request.getSession();
+            session.invalidate();
             request.setAttribute("logout", "true");
         }
 
@@ -32,94 +31,72 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
+
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        boolean register;
+        HttpSession session = request.getSession();
+
         boolean invalid = true;
+
         switch (action) {
             case ("User Login"):
                 // Set register to false, then return to login page with login form
-                register = false;
-                request.setAttribute("register", register);
+                request.setAttribute("register", false);
                 break;
 
             case ("Register New User"):
                 // Set register to true, then return to login page with register form
-                register = true;
-                request.setAttribute("register", register);
+                request.setAttribute("register", true);
                 break;
 
             case ("Login"):
-                // Exisiting user login
-                if (email.equals("") || password.equals("")) {
-                    request.setAttribute("invalid",  "All fields must be filled in");
+                // If the login details are correct, retrieve the corresponding user email
+                String userEmail = UserService.login(email, password);
 
-                } else {
-                    // If the login details are correct, retrieve the corresponding user email
-                    String userEmail = UserService.login(email, password);
-
-                    invalid = (userEmail == null);
-                    if (invalid) {
-                        // Inform the user if their login failed
-                        request.setAttribute("invalid", "Invalid login details");
-                    } else {
-                        HttpSession session = request.getSession();
-                        
-                        // Set the session variable for email and name
-                        session.setAttribute("userEmail", userEmail);
-                        session.setAttribute("userFirstName", UserService.getFirstName(email));
-                        session.setAttribute("userFirstName", UserService.getLastName(email));
-                        
-                        // Set welcome message for home page
-                        session.setAttribute("currentUser", true);
-                    }
+                invalid = (userEmail == null);
+                if (invalid) {
+                    // Inform the user if their login failed
+                    request.setAttribute("invalid", "Invalid login details");
                 }
                 break;
 
             case ("Register"):
-                // Register new user
-                String firstName = request.getParameter("firstName");
-                String lastName = request.getParameter("lastName");
-                
-                if (email.equals("") || password.equals("") || firstName.equals("") || lastName.equals("")) {
-                    request.setAttribute("invalid", "All fields must be filled in");
-                
-                } else {
-                    // Add new user
-                    String newUserEmail = UserService.register(firstName, lastName, email, password);
-                    
-                    invalid = (newUserEmail == null);
-                    if (invalid) {
-                        // Inform the user if their registration attempt failed
-                        request.setAttribute("invalid", "The e-mail you are using is already belongs to a user");
-                        request.setAttribute("firstName", firstName);
-                        request.setAttribute("lastName", lastName);
-                    } else {
-                        HttpSession session = request.getSession();
-                        
-                        // Set the session variable for email and name
-                        session.setAttribute("userEmail", newUserEmail);
-                        session.setAttribute("userFirstName", UserService.getFirstName(email));
-                        session.setAttribute("userFirstName", UserService.getLastName(email));
-                        
-                        // Inform the user that their registration was successfull on the home page
-                        session.setAttribute("newUser", true);
-                    }
+                String newUserEmail = UserService.register(firstName, lastName, email, password);
+
+                // If null is return then a user was not created
+                invalid = (newUserEmail == null);
+                if (invalid) {
+                    // Inform the user if their registration attempt failed
+                    request.setAttribute("invalid", "The e-mail you are using is already belongs to a user");
+
+                    // Keep the user on the register form
+                    request.setAttribute("register", true);
                 }
                 break;
-                
+
             default:
                 System.out.println("Default");
         }
 
         if (invalid == true) {
-            // Send to login page if registration or login attempt failed
+            // Keep the user inputs
+            request.setAttribute("firstName", firstName);
+            request.setAttribute("lastName", lastName);
             request.setAttribute("email", email);
             request.setAttribute("password", password);
+
+            // Send to login page if registration or login attempt failed
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 
         } else {
+            // Set the session variable for email and name
+            session.setAttribute("userEmail", email);
+            session.setAttribute("userFirstName", UserService.getFirstName(email));
+            session.setAttribute("userFirstName", UserService.getLastName(email));
+
             response.sendRedirect("home");
         }
     }

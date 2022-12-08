@@ -22,7 +22,7 @@ public class UserService {
     public static String login(String email, String password) {
         try {
             // See if there is a user in the DB with a matching username
-            User user = new UserDB().findUser(email);
+            User user = getUser(email);
             
             // If there is a user in the DB with a matching username, check the validity of the
             // inputted password
@@ -97,6 +97,15 @@ public class UserService {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        return null;
+    }
+
+   public static User getUser(String userEmail) {
+        try {
+            return new UserDB().findUser(userEmail);
+        } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
     

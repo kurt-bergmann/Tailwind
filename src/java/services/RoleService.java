@@ -1,6 +1,9 @@
 package services;
 
 import dataaccess.RoleDB;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Role;
 
 public class RoleService {
@@ -14,7 +17,7 @@ public class RoleService {
            
        } catch (Exception ex) {
            // Set the role name to null if the database could not be reached
-           System.out.println(ex);
+           Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
            role = null;
        }
               
@@ -30,12 +33,27 @@ public class RoleService {
            
        } catch (Exception ex) {
            // Set the role name to null if the database could not be reached
-           System.out.println(ex);
+           Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
            roleName = "null";
        }
               
        return roleName;
     }
-
+    
+    // Retrieve all data from about roles from the database
+    public static ArrayList<Role> getAllRoles() {
+        ArrayList<Role> roles;
+        
+        try{
+            roles = new RoleDB().getAllRoles();
+            
+        } catch (Exception ex) {
+             // Return null if the database could not be reached
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            roles = null;
+        }
+        
+      return roles;   
+    }
 
 }

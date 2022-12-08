@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import models.*;
-import services.UserService;
 
 public class UserDB {
 
@@ -63,8 +62,7 @@ public class UserDB {
             trans.commit();
 
         } catch (Exception ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
+            Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, null, ex);
             // Rollback if there is an error
             trans.rollback();
 
@@ -89,8 +87,7 @@ public class UserDB {
             trans.commit();
 
         } catch (Exception ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
+            Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, null, ex);
             // Rollback if there is an error
             trans.rollback();
 
@@ -115,7 +112,7 @@ public class UserDB {
             // Remove the user into the user table
             em.remove(em.merge(user));
 
-            // Roles have multiple users so this new user should be remove from respective role list
+            // Roles have multiple users so this new user should be removed from respective role list
             Role role = user.getRole();
             role.getUserList().remove(user);
             // update the role table
@@ -124,8 +121,7 @@ public class UserDB {
             trans.commit();
 
         } catch (Exception ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
+            Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, null, ex);
             // Rollback if there is an error
             trans.rollback();
 

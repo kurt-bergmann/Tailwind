@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `inventorydb`.`item` (
   `item_name` VARCHAR(45) NOT NULL,
   `price` DOUBLE NOT NULL,
   `owner` VARCHAR(40) NOT NULL,
-  PRIMARY KEY (`item_id`,`owner`),
+  PRIMARY KEY (`item_id`),
   CONSTRAINT `ck_price`
     CHECK (price > 0),
   CONSTRAINT `fk_items_categories`

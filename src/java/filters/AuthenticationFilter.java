@@ -18,7 +18,7 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-            // code that is executed before the servlet
+            // Check if valid user is logged on
             HttpServletRequest httpRequest = (HttpServletRequest)request;
             HttpSession session = httpRequest.getSession();
             
@@ -29,9 +29,8 @@ public class AuthenticationFilter implements Filter {
                 httpResponse.sendRedirect("login");
                 return;
             }
-            
+
             chain.doFilter(request, response); // execute the servlet
-            
     }
 
     @Override
