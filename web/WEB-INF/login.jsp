@@ -27,40 +27,42 @@
         <c:choose>
             <c:when test="${register}">
                 <%-- Register new user --%>
-                    <form method="post" action="login">
-                        First Name: <input type="text" name="firstName" value="${firstName}">
-                         <br>
-                         Last Name: <input type="text" name="lastName" value="${lastName}">
-                         <br>
-                        E-mail: <input type="text" name="email" value="${email}">
-                        <br>
-                        Password: <input type="password" name="password" value="${password}">
-                        <br>
-                        <input type="submit" name="action" value="Register">
-                        
-                        <br><br><br>
-                        
-                        <input type="submit" name="action" value="User Login">
+                <form method="post" action="login">
+                    First Name: <input type="text" name="firstName" value="${firstName}" required>
+                    <br>
+                    Last Name: <input type="text" name="lastName" value="${lastName}" required>
+                    <br>
+                    E-mail: <input type="text" name="email" value="${email}" required>
+                    <br>
+                    Password: <input type="password" name="password" value="${password}" required>
+                    <br>
+                    <input type="submit" name="action" value="Register">
+                </form>
 
-                    </form>
-                </c:when>
+                <br><br>
 
-                <c:otherwise>
-                      <%-- User login --%>
-                    <form method="post" action="login">
-                        E-mail: <input type="text" name="email" value="${email}">
-                        <br>
-                        Password: <input type="password" name="password" value="${password}">
-                        <br>
-                        <input type="submit" name="action" value="Login">
-                        
-                        <br><br><br>
-                        
-                        <input type="submit" name="action" value="Register New User">
+                <form method="post" action="login">
+                    <input type="submit" name="action" value="User Login">
+                </form>    
+            </c:when>
 
-                    </form>
-                </c:otherwise>
-            </c:choose>
+            <c:otherwise>
+                <%-- User login --%>
+                <form method="post" action="login">
+                    E-mail: <input type="text" name="email" value="${email}" required>
+                    <br>
+                    Password: <input type="password" name="password" value="${password}" required>
+                    <br>
+                    <input type="submit" name="action" value="Login">
+                </form>
 
-         </body>
+                <br><br>
+
+                <form method="post" action="login">
+                    <input type="submit" name="action" value="Register New User">
+                </form>    
+            </c:otherwise>
+        </c:choose>
+
+</body>
 </html>

@@ -1,15 +1,15 @@
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home</title>
     </head>
-    
+
     <body>
-        
+
         <nav>
             <ul>
                 <li><a href="home">Home</a></li>
@@ -17,58 +17,110 @@
                 <li><a href="login?logout">Logout</a></li>
             </ul>
         </nav>
-        
+
         <h1>HOME nVentory</h1>
-        
+
         <h3>
-            <c:if test="${newUser}">
-                Registration successful
-                <br>
-                Welcome ${userFirstName}!
-            </c:if>
-            <c:if test="${currentUser}">
-                Welcome back ${userFirstName}!
-            </c:if>
+            Welcome ${userFirstName}
         </h3>
-        
+
         <br>
         
         <h2>Inventory</h2>
-        
-        <table>
-                    <tr>
-                        <th>Item Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th colspan="2"></th>
-                    </tr>
 
-                    <%-- Display a row for each item that belongs to the current user--%>
-                    <c:forEach var="item" items="${userItems}">
+        <c:choose>
+            
+            <%-- Edit the user's inventory --%>
+            <c:when test="${editInventory}">
+                <form method="post" action="home">
+                    <table name="inventory">
                         <tr>
-                            <%-- Item data --%>
-                            <td>${item.itemName}</td>
-                            <td>${user.price}</td>
-                            <td>${user.category}</td>
-
-                            <%-- Edit and delete links --%>
-                            <td><a href="home?edit=item.itemPK.itemId">
-                                    Edit
-                                </a>
-                            </td>
-                            <td>
-                                <a href="
-                                   <c:url value='users'>
-                                       <c:param name='delete' value='${user.email}' />
-                                   </c:url>
-                                   ">
-                                    Delete
-                                </a>
-                            </td>
-
+                            <th>Item Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Delete</th>
                         </tr>
-                    </c:forEach>
-                </table>
-        
+
+                        <%-- Display a row for each item that belongs to the current user--%>
+                        <c:forEach var="item" items="${userItems}">
+                            <tr>
+                                <%-- Item name --%>
+                                <td>
+                                    <input type="text" name="${item.getItemId()}Name" value="${item.getItemName()}" required>
+                                </td>
+                                
+                                <%-- Item Price --%>
+                                <td>
+                                    <input type="number" name="${item.getItemId()}Price" value="${item.getPrice()}" min="0">
+                                </td>
+                                
+                                <%-- Item categories --%>
+                                <td>
+                                    <select name="categories">
+                                        <c:forEach var="category" items="${categories}">
+                                            <option 
+                                                    value="${category.getCategoryId()}"  name="${item.getItemId()}Category"
+                                                    
+                                                    <%-- Set the default selected category to the items current category --%>
+                                                    ${(item.getCategory().getCategoryId() == category.getCategoryId()) ?
+                                                      "selected" : ""}>  
+
+                                                ${category.getCategoryName()}
+                                            </option>
+                                        </c:forEach>                                                      
+                                    </select>
+                                </td>
+                                
+                                <%-- Delete item --%>
+                                <td>
+                                    <input type="checkbox" name="${item.getItemId()}Delete" value="delete">
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table> 
+                        
+                    <input type="submit" value="Add Item" name="action">
+                    <br>
+                    <input type="submit" value="Save Changes" name="action">
+                    <button>
+                        <a href="home" style="text-decoration: none; color: black">Cancel</a>
+                    </button>
+                </form>
+            </c:when>
+
+            <%-- Just view inventory --%>
+            <c:otherwise>
+                <form method="post" action="home">
+                    <table>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                        </tr>
+
+                        <%-- Display a row for each item that belongs to the current user--%>
+                        <c:forEach var="item" items="${userItems}">
+                            <tr>
+                             <td>
+                                ${item.getItemName()}
+                                </td>
+                                
+                                <td>
+                                    ${item.getPrice() + 0.00} 
+                                </td>
+                                
+                                <td>
+                                    ${item.getCategory().getCategoryName()}
+                                </td>
+                            </tr>
+                        </c:forEach>
+                            
+                    </table>
+                    <input type="submit" value="Edit Inventory" name="action">
+                </form>
+            </c:otherwise>
+
+        </c:choose>
+
     </body>
 </html>
