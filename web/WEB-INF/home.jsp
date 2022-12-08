@@ -1,6 +1,7 @@
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,11 +57,9 @@
                                 
                                 <%-- Item categories --%>
                                 <td>
-                                    <select name="categories">
+                                    <select name="${item.getItemId()}Category">
                                         <c:forEach var="category" items="${categories}">
-                                            <option 
-                                                    value="${category.getCategoryId()}"  name="${item.getItemId()}Category"
-                                                    
+                                            <option  value="${category.getCategoryId()}"  
                                                     <%-- Set the default selected category to the items current category --%>
                                                     ${(item.getCategory().getCategoryId() == category.getCategoryId()) ?
                                                       "selected" : ""}>  
@@ -106,7 +105,7 @@
                                 </td>
                                 
                                 <td>
-                                    ${item.getPrice() + 0.00} 
+                                    <fmt:formatNumber minFractionDigits="2" value="${item.getPrice()} "/>
                                 </td>
                                 
                                 <td>
