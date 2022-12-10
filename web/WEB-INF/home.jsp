@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
+        <title>HOME nVentory</title>
     </head>
 
     <body>
@@ -34,13 +34,17 @@
             <%-- Edit the user's inventory --%>
             <c:when test="${editInventory}">
                 <form method="post" action="home">
-                    <table name="inventory">
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Delete</th>
-                        </tr>
+                    <table>
+
+                        <%-- Only display headers if there is at least one item in the user's inventory --%>
+                        <c:if test="${userItems.size() >= 1}">
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Delete</th>
+                            </tr>
+                        </c:if>
 
                         <%-- Display a row for each item that belongs to the current user--%>
                         <c:forEach var="item" items="${userItems}">
@@ -79,6 +83,7 @@
                         </c:forEach>
                     </table> 
 
+                    <%-- Add item, save inventory changes, or cancel --%>
                     <input type="submit" value="Add Item" name="action">
                     <br>
                     <input type="submit" value="Save Changes" name="action">

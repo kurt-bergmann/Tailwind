@@ -37,8 +37,14 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("editInventory", true);
         }
 
+        // Check the user's role id
+        int userRoleId = UserService.getUserRoleId(userEmail);
+        
+        if (userRoleId == 1) {
+            // Send the admin to the admin page
+            getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
+        }
         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-
     }
 
     @Override
@@ -99,7 +105,7 @@ public class HomeServlet extends HttpServlet {
                 }
 
                 // Set the id to a negative number to indicate that it is a new item
-                Item blankItem = new Item((userItems.size() - 1) * -1, UserService.getUser(userEmail));
+                Item blankItem = new Item((userItems.size() - 1) * -1, userItems.get(0).getOwner());
                 userItems.add(blankItem);
 
                 // Set editInventory to true to keep the user on the edit inventory form

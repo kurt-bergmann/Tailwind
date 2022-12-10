@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Item.findByOwner", 
-            query = "SELECT i FROM Item i WHERE i.owner.email = :owner ORDER BY i.category")
+            query = "SELECT i FROM Item i WHERE i.owner.email = :owner ORDER BY i.category, i.itemName")
     , @NamedQuery(name = "Item.findAll", 
             query = "SELECT i FROM Item i")
     , @NamedQuery(name = "Item.findByItemId", 

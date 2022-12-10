@@ -41,6 +41,9 @@ public class LoginServlet extends HttpServlet {
 
         boolean invalid = true;
 
+        // Default role id set to regular user
+        int userRoleId = 2;
+
         switch (action) {
             case ("User Login"):
                 // Set register to false, then return to login page with login form
@@ -56,18 +59,23 @@ public class LoginServlet extends HttpServlet {
                 // If the login details are correct, retrieve the corresponding user email
                 String userEmail = UserService.login(email, password);
 
-                // Check if user account is active
-                boolean userIsActive = UserService.checkActive(email);
-                
+                // If null is returned then the password was incorrect, or no user could be found
                 invalid = (userEmail == null);
                 if (invalid) {
                     // Inform the user if their login failed
                     request.setAttribute("invalid", "Invalid login details");
-                } 
+                } else {
+                    // Check if the user is an admin
+                    userRoleId = UserService.getUserRoleId(email);
+                }
+
+                // Check if user account is active
+                boolean userIsActive = UserService.checkActive(email);
                 if (!userIsActive) {
+                    // A user can't log in to their account if it's inactive
                     invalid = true;
-                    request.setAttribute("invalid", "This account has been deactivated<br>" +
-                            "Please contact a system administrator to reactivate your account");
+                    request.setAttribute("invalid", "This account has been deactivated<br>"
+                            + "Please contact a system administrator to reactivate your account");
                 }
                 break;
 
@@ -99,13 +107,24 @@ public class LoginServlet extends HttpServlet {
             // Send to login page if registration or login attempt failed
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 
-        } else {
+        } else if (userRoleId == 2) {
             // Set the session variable for email and name
             session.setAttribute("userEmail", email);
             session.setAttribute("userFirstName", UserService.getFirstName(email));
             session.setAttribute("userLastName", UserService.getLastName(email));
 
+            // Send regular user to their home page
             response.sendRedirect("home");
+
+        } else if (userRoleId == 1) {
+            // Set the session variable for email and name
+            session.setAttribute("userEmail", email);
+            session.setAttribute("adminUser", true);
+            session.setAttribute("userFirstName", UserService.getFirstName(email));
+            session.setAttribute("userLastName", UserService.getLastName(email));
+
+            // Send the system admin to the admin page
+            response.sendRedirect("admin");
         }
     }
 }

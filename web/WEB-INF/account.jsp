@@ -5,37 +5,42 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Account</title>
-        
-        <script>
-                function confirmDeactivate() {
-                    var warning = ("Are you sure you want to deactivate your account?");
+        <title>HOME nVentory Account</title>
 
-                    if (confirm(warning)) {
-                        document.getElementById("deactivateAccount").setAttribute("value", "true");
-                    }
+        <script>
+            function confirmDeactivate() {
+                var warning = ("Are you sure you want to deactivate your account?");
+
+                if (confirm(warning)) {
+                    document.getElementById("deactivateAccount").setAttribute("value", "true");
                 }
-            </script>
+            }
+        </script>
 
     </head>
     <body>
-        
-         <nav>
+
+        <nav>
             <ul>
-                <li><a href="home">Home</a></li>
+                <c:if test="${adminUser}">
+                    <li><a href="admin">Manage Users</a></li>
+                </c:if>
+                <c:if test="${adminUser == null}">
+                    <li><a href="home">Home</a></li>
+                </c:if>
                 <li><a href="account">Account</a></li>
                 <li><a href="login?logout">Logout</a></li>
             </ul>
         </nav>
-        
+
         <h1>Account Settings</h1>
-        
+
         <p>
-            Edit your account details below
+            ${userFirstName} edit your account details below
         </p>
-        
+
         <br>
-        
+
         <form method="post" action="account" id="accountForm">
             <%-- Edit user name --%>
             <h3>Name</h3>
@@ -45,9 +50,9 @@
             Last Name: <input type="text" name="lastName">
             <br>
             <input type="submit" name="action" value="Change Name"> <input type="reset" value="Reset">
-            
+
             <br>
-            
+
             <%-- Edit user password --%>
             <h3>Password</h3>
             <p>${passwordResponse}</p>
@@ -58,9 +63,9 @@
             Confirm Password: <input type="password" name="confirmNewPassword">
             <br>
             <input type="submit" name="action" value="Change Password"> <input type="reset" value="Cancel">   
-            
+
             <br>
-            
+
             <%-- Edit user email --%>
             <h3>E-mail</h3>
             <p>${emailResponse}</p>
@@ -69,18 +74,22 @@
             Confirm E-mail: <input type="text" name="confirmNewEmail">
             <br>
             <input type="submit" name="action" value="Change Email">
-            
+
             <br>
-            
-            <h3>Deactivate Account</h3>
-            <p>
-               You will not be able to log in once your account has been deactivated
-               <br>
-               To reactivate your account you will need to email a system adminstrator
-            </p>
-           
-            <input type="submit" name="action" value="Deactivate Account" onclick="confirmDeactivate()">
-            <input id="deactivateAccount" name="confirmDeactivateAccount" type="hidden">
+
+            <%-- Only show deactivate account for regular users --%>
+            <c:if test="${adminUser == null}">
+                <h3>Deactivate Account</h3>
+                <p>
+                    You will not be able to log in once your account has been deactivated
+                    <br>
+                    To reactivate your account you will need to email a system adminstrator
+                </p>
+
+                <input type="submit" name="action" value="Deactivate Account" onclick="confirmDeactivate()">
+                <input id="deactivateAccount" name="confirmDeactivateAccount" type="hidden">
+            </c:if>
+
         </form> 
 
     </body>

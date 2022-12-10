@@ -10,9 +10,6 @@ import models.User;
 
 
 public class UserService {
-    
-    private static final int SYSTEM_ADMIN = 1;
-    private static final int REGULAR_USER = 2;
 
     /**
      * Login user
@@ -57,6 +54,8 @@ public class UserService {
      * @return The email of the new user
      */
     public static String register(String firstName, String lastName, String email, String password) {
+        final int REGULAR_USER = 2;
+        
         try {
             // Check if the e-mail is already being used
             User currentUser = getUser(email);
@@ -188,6 +187,13 @@ public class UserService {
         return false;
     }
 
+    /**
+     * Change a user's email address
+     * 
+     * @param newEmail
+     * @param oldEmail
+     * @return true if change succeeded, false if it failed
+     */
     public static boolean changeEmail(String newEmail, String oldEmail) {
         // Check if email is available
         if (getUser(newEmail) != null) {
@@ -224,11 +230,22 @@ public class UserService {
         }
     }
 
+    /**
+     * Check the active status of a user's account
+     * 
+     * @param email
+     * @return true if user is active, false if the account has been deactivated
+     */
     public static boolean checkActive(String email) {
         User user = getUser(email);
         return user.getActive();
     }
 
+    /**
+     * Deactivate a user's account
+     * 
+     * @param email 
+     */
     public static void deactivateAccount(String email) {
        User user = getUser(email);
        user.setActive(false);
@@ -238,6 +255,47 @@ public class UserService {
         } catch (Exception ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Get the user's role id
+     * 
+     * @param email
+     * @return user role id integer
+     */
+    public static int getUserRoleId(String email) {
+        User user = getUser(email);
+        return user.getRole().getRoleId();
+    }
+
+    /**
+     * Get an ArrayList of all the users in the database
+     * 
+     * @return A list of all the users, or null if something went wrong
+     */
+    public static ArrayList<User> getAllUsers() {
+       try {
+           return new UserDB().getAllUsers();
+        } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return null;
+    }
+
+    public static boolean addAccount(String email, String firstName, String lastName, String password, 
+            boolean acitve, int roleId) {
+        Role role = RoleService.getRole(roleId);
+        User user = new User(email, acitve, firstName, lastName, password, role);
+        
+        try {
+            new UserDB().insertNewUser(user);
+            return true;
+            
+        } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
     }
     
 }
