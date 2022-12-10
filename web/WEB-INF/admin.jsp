@@ -11,6 +11,8 @@
         <nav>
             <ul>
                 <li><a href="admin">Manage Users</a></li>
+                <li><a href="admin">Manage Categories</a></li>
+                <li><a href="home">HOME nVentory</a></li>
                 <li><a href="account">Account</a></li>
                 <li><a href="login?logout">Logout</a></li>
             </ul>
@@ -70,8 +72,13 @@
         <form action="admin" method="post">
 
             <%-- E-mail input  --%>
-            Email: <input type="text" name="email" 
-                          value="${editUser ? userToEdit.getEmail() : inputEmail}" required>
+            <c:if test="${editUser}">
+                E-mail:
+                <input type="text" name="email" value="${userToEdit.getEmail()}" readonly>
+                <br>
+            </c:if>
+            ${editUser ? "New e-mail:" : "E-mail:"} 
+            <input type="text" name="newEmail" value="${inputEmail}">
 
             <br>
 
@@ -134,7 +141,7 @@
                 <input type="submit" value="Add account" name="action">
             </c:if>
 
-            <br>
+                <br><br>
 
             <%-- Error message  --%>
             ${emailAlreadyExists ? "E-mail already in use" : ""}

@@ -11,7 +11,6 @@ import models.Category;
 import models.Item;
 import services.CategoryService;
 import services.ItemService;
-import services.UserService;
 
 public class HomeServlet extends HttpServlet {
 
@@ -37,13 +36,6 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("editInventory", true);
         }
 
-        // Check the user's role id
-        int userRoleId = UserService.getUserRoleId(userEmail);
-        
-        if (userRoleId == 1) {
-            // Send the admin to the admin page
-            getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
-        }
         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
     }
 

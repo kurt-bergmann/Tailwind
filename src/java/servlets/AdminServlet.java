@@ -49,10 +49,11 @@ public class AdminServlet extends HttpServlet {
 
         // Retrieve parameter values
         String email = request.getParameter("email");
+        String newEmail = request.getParameter("newEmail");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String password = request.getParameter("password");
-        boolean acitve = Boolean.getBoolean(request.getParameter("active"));
+        boolean acitve = request.getParameter("active").equals("true");
         int role = Integer.parseInt(request.getParameter("role"));
 
         // Retrieve action command
@@ -60,11 +61,32 @@ public class AdminServlet extends HttpServlet {
 
         switch (action) {
             case ("Add account"):
-                boolean addAccount = UserService.addAccount(email, firstName, lastName, password, acitve, role);
+                boolean addAccount = UserService.addAccount(newEmail, firstName, lastName, password, acitve, role);
                 
                 // If add account is false a user was not added to the database
                 // Most likely the email is already being used
                 if (!addAccount) {
+                    // Inform the user of the error
+                    request.setAttribute("emailAlreadyExists", true);
+                    
+                    // Keep user inputs
+                    request.setAttribute("inputEmail", newEmail);
+                    request.setAttribute("inputFirstName", firstName);
+                    request.setAttribute("inputLastName", lastName);
+                } else {
+                    // reset user table
+                    ArrayList<User> users = UserService.getAllUsers();
+                    session.setAttribute("users", users);
+                }
+                break;
+
+            case ("Save changes"):
+                boolean editAccount = UserService.updateAccount(email, newEmail, firstName, lastName, password, 
+                        acitve, role);
+                
+                // If editAccount is false the user was not edited
+                // Most likely the email is already being used
+                if (!editAccount) {
                     // Inform the user of the error
                     request.setAttribute("emailAlreadyExists", true);
                     
@@ -77,9 +99,6 @@ public class AdminServlet extends HttpServlet {
                     ArrayList<User> users = UserService.getAllUsers();
                     session.setAttribute("users", users);
                 }
-                break;
-
-            case ("Save changes"):
                 break;
 
             case ("Delete account"):

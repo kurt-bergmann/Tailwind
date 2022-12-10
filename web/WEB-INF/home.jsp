@@ -13,7 +13,11 @@
 
         <nav>
             <ul>
-                <li><a href="home">Home</a></li>
+                <c:if test="${adminUser}">
+                    <li><a href="admin">Manage Users</a></li>
+                    <li><a href="admin">Manage Categories</a></li>
+                </c:if>
+                <li><a href="home">HOME nVentory</a></li>
                 <li><a href="account">Account</a></li>
                 <li><a href="login?logout">Logout</a></li>
             </ul>
