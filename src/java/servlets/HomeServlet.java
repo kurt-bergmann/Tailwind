@@ -54,8 +54,9 @@ public class HomeServlet extends HttpServlet {
         // Retrieve all categories
         ArrayList<Category> categories = CategoryService.getAllCategories();
         request.setAttribute("categories", categories);
-
-        String action = request.getParameter("action");
+        
+        // Make sure that action is not null
+        String action = (request.getParameter("action") != null) ? request.getParameter("action") : "no action";
         switch (action) {
             case ("Add Item"):
 

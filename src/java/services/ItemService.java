@@ -2,9 +2,8 @@ package services;
 
 import dataaccess.ItemDB;
 import java.util.ArrayList;
-import models.Category;
 import models.Item;
-import models.User;
+
 
 
 public class ItemService {

@@ -56,10 +56,18 @@ public class LoginServlet extends HttpServlet {
                 // If the login details are correct, retrieve the corresponding user email
                 String userEmail = UserService.login(email, password);
 
+                // Check if user account is active
+                boolean userIsActive = UserService.checkActive(email);
+                
                 invalid = (userEmail == null);
                 if (invalid) {
                     // Inform the user if their login failed
                     request.setAttribute("invalid", "Invalid login details");
+                } 
+                if (!userIsActive) {
+                    invalid = true;
+                    request.setAttribute("invalid", "This account has been deactivated<br>" +
+                            "Please contact a system administrator to reactivate your account");
                 }
                 break;
 
@@ -95,7 +103,7 @@ public class LoginServlet extends HttpServlet {
             // Set the session variable for email and name
             session.setAttribute("userEmail", email);
             session.setAttribute("userFirstName", UserService.getFirstName(email));
-            session.setAttribute("userFirstName", UserService.getLastName(email));
+            session.setAttribute("userLastName", UserService.getLastName(email));
 
             response.sendRedirect("home");
         }

@@ -96,16 +96,13 @@ public class UserDB {
         }
     }
 
-    public void deleteUser(String email) throws Exception {
+    public void deleteUser(User user) throws Exception {
         // Instantiate EntityManager
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         // Instantitate EntityTransaction so DML can be executed
         EntityTransaction trans = em.getTransaction();
 
         try {
-            // Find the user based on their email
-            User user = em.find(User.class, email);
-
             // Transaction
             trans.begin();
 

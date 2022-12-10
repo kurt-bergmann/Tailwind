@@ -26,11 +26,11 @@
         </h3>
 
         <br>
-        
+
         <h2>Inventory</h2>
 
         <c:choose>
-            
+
             <%-- Edit the user's inventory --%>
             <c:when test="${editInventory}">
                 <form method="post" action="home">
@@ -49,28 +49,28 @@
                                 <td>
                                     <input type="text" name="${item.getItemId()}Name" value="${item.getItemName()}" required>
                                 </td>
-                                
+
                                 <%-- Item Price --%>
                                 <td>
                                     <input type="number" name="${item.getItemId()}Price" value="${item.getPrice()}" min="0"
                                            step="0.01">
                                 </td>
-                                
+
                                 <%-- Item categories --%>
                                 <td>
                                     <select name="${item.getItemId()}Category">
                                         <c:forEach var="category" items="${categories}">
                                             <option  value="${category.getCategoryId()}"  
-                                                    <%-- Set the default selected category to the items current category --%>
-                                                    ${(item.getCategory().getCategoryId() == category.getCategoryId()) ?
-                                                      "selected" : ""}>  
+                                                     <%-- Set the default selected category to the items current category --%>
+                                                     ${(item.getCategory().getCategoryId() == category.getCategoryId()) ?
+                                                       "selected" : ""}>  
 
                                                 ${category.getCategoryName()}
                                             </option>
                                         </c:forEach>                                                      
                                     </select>
                                 </td>
-                                
+
                                 <%-- Delete item --%>
                                 <td>
                                     <input type="checkbox" name="${item.getItemId()}Delete" value="delete">
@@ -78,7 +78,7 @@
                             </tr>
                         </c:forEach>
                     </table> 
-                        
+
                     <input type="submit" value="Add Item" name="action">
                     <br>
                     <input type="submit" value="Save Changes" name="action">
@@ -89,35 +89,45 @@
             </c:when>
 
             <%-- Just view inventory --%>
-            <c:otherwise>
-                    <table>
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                        </tr>
+            <c:when test="${userItems.size() > 0}">
+                <table>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                    </tr>
 
-                        <%-- Display a row for each item that belongs to the current user--%>
-                        <c:forEach var="item" items="${userItems}">
-                            <tr>
-                             <td>
+                    <%-- Display a row for each item that belongs to the current user--%>
+                    <c:forEach var="item" items="${userItems}">
+                        <tr>
+                            <td>
                                 ${item.getItemName()}
-                                </td>
-                                
-                                <td>
-                                    <fmt:formatNumber minFractionDigits="2" value="${item.getPrice()} "/>
-                                </td>
-                                
-                                <td>
-                                    ${item.getCategory().getCategoryName()}
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                        
-                   <button>
-                        <a href="home?editInventory" style="text-decoration: none; color: black">Edit Inventory</a>
-                    </button>
+                            </td>
+
+                            <td>
+                                <fmt:formatNumber minFractionDigits="2" value="${item.getPrice()} "/>
+                            </td>
+
+                            <td>
+                                ${item.getCategory().getCategoryName()}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+
+                <button>
+                    <a href="home?editInventory" style="text-decoration: none; color: black">
+                        Edit Inventory
+                    </a>
+                </button>
+            </c:when>
+
+            <c:otherwise>
+                <button>
+                    <a href="home?editInventory" style="text-decoration: none; color: black">
+                        Create Inventory
+                    </a>
+                </button>
             </c:otherwise>
 
         </c:choose>
