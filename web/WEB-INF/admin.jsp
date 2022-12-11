@@ -4,14 +4,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>HOME nVentory Administrator</title>
+        <title>HOME nVentory Administrator Accounts</title>
     </head>
     <body>
 
         <nav>
             <ul>
                 <li><a href="admin">Manage Accounts</a></li>
-                <li><a href="admin">Manage Categories</a></li>
+                <li><a href="category">Manage Categories</a></li>
                 <li><a href="home">HOME nVentory</a></li>
                 <li><a href="account">Account</a></li>
                 <li><a href="login?logout">Logout</a></li>
@@ -125,7 +125,7 @@
             <c:if test="${editUser}">
                 <input type="submit" value="Save changes" name="action">
                 <button>
-                    <a style="text-decoration: none; color: black" href="admin?action=cancel">
+                    <a style="text-decoration: none; color: black" href="admin">
                         Cancel
                     </a>
                 </button>

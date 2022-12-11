@@ -87,9 +87,12 @@
                         </c:forEach>
                     </table> 
 
-                    <%-- Add item, save inventory changes, or cancel --%>
+                    <%-- Add item --%>
                     <input type="submit" value="Add Item" name="action">
-                    <br>
+                    
+                    <br><br>
+                    
+                     <%-- Save changes, or cancel --%>
                     <input type="submit" value="Save Changes" name="action">
                     <button>
                         <a href="home" style="text-decoration: none; color: black">Cancel</a>

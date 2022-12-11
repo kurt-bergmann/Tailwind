@@ -26,5 +26,29 @@ public class CategoryService {
               
        return category;
     }
+
+    public static boolean updateCategories(ArrayList<Category> categories) {
+        // Get current category list size
+        int currentCategoryListSize = getAllCategories().size();
+        
+        int counter = 1;
+        
+        for (Category category : categories) {
+           
+            if (counter <= currentCategoryListSize) {
+                 // Update old categories
+                new CategoryDB().updateCategory(category);
+                
+            } else {
+                // Insert new categories
+                new CategoryDB().insertCategory(category);
+            }
+            // Increase counter
+            counter ++;
+        }
+        
+        // If the new category list size is the same as the parameter then categories were updated
+        return categories.size() == getAllCategories().size();
+    }
     
 }

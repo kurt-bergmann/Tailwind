@@ -11,6 +11,7 @@ import models.Category;
 import models.Item;
 import services.CategoryService;
 import services.ItemService;
+import services.UserService;
 
 public class HomeServlet extends HttpServlet {
 
@@ -26,12 +27,13 @@ public class HomeServlet extends HttpServlet {
         // Set userItems session variable
         session.setAttribute("userItems", userItems);
 
+        // Retrieve all categories
+        ArrayList<Category> categories = CategoryService.getAllCategories();
+        // Set categories session variable
+        session.setAttribute("categories", categories);
+
         // Check if the user selected "Edit inventory"
         if (request.getParameter("editInventory") != null) {
-            // Retrieve all categories
-            ArrayList<Category> categories = CategoryService.getAllCategories();
-            request.setAttribute("categories", categories);
-
             // Set editInventory to true to send the user to the edit inventory form
             request.setAttribute("editInventory", true);
         }
@@ -49,18 +51,16 @@ public class HomeServlet extends HttpServlet {
         // Get ArrayList of user items
         ArrayList<Item> userItems = (ArrayList<Item>) session.getAttribute("userItems");
 
-        // Retrieve all categories
-        ArrayList<Category> categories = CategoryService.getAllCategories();
-        request.setAttribute("categories", categories);
-        
         // Make sure that action is not null
         String action = (request.getParameter("action") != null) ? request.getParameter("action") : "no action";
+
         switch (action) {
             case ("Add Item"):
 
                 // Create a blank item for user to edit
-                // Keep the data from other new items
+                // Keep the data from other items
                 for (int x = 0; x < userItems.size(); x++) {
+                    // Item Id
                     int itemId = userItems.get(x).getItemId();
 
                     // Item values
@@ -69,35 +69,21 @@ public class HomeServlet extends HttpServlet {
                     int categoryId = Integer.parseInt(request.getParameter(itemId + "Category"));
                     Category category = CategoryService.getCategory(categoryId);
 
-                    // Initalize new item
-                    if (itemId < 0) {
-                        Item newItem = userItems.get(x);
+                    // Update the exisiting inventory
+                    Item currentItem = userItems.get(x);
 
-                        // Set the new item's id to the original ID so that it will still indicate that it's new item
-                        newItem.setItemId(itemId);
-                        // Set new values
-                        newItem.setItemName(itemName);
-                        newItem.setPrice(itemPrice);
-                        newItem.setCategory(category);
+                    // Set new or old values
+                    currentItem.setItemName(itemName);
+                    currentItem.setPrice(itemPrice);
+                    currentItem.setCategory(category);
 
-                        // Set new item
-                        userItems.set(x, newItem);
-                    } else {
-                        // Update the exisiting inventory
-                        Item currentItem = userItems.get(x);
-
-                        // Set new values
-                        currentItem.setItemName(itemName);
-                        currentItem.setPrice(itemPrice);
-                        currentItem.setCategory(category);
-
-                        // Set item
-                        userItems.set(x, currentItem);
-                    }
+                    // Set item
+                    userItems.set(x, currentItem);
                 }
 
+                // Initalize a new blank item
                 // Set the id to a negative number to indicate that it is a new item
-                Item blankItem = new Item((userItems.size() - 1) * -1, userItems.get(0).getOwner());
+                Item blankItem = new Item((userItems.size() - 1) * -1, UserService.getUser(userEmail));
                 userItems.add(blankItem);
 
                 // Set editInventory to true to keep the user on the edit inventory form

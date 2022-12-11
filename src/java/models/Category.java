@@ -62,7 +62,7 @@ public class Category implements Serializable {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    private void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
