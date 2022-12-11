@@ -6,18 +6,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <c:import url="style.jsp" />
         <title>HOME nVentory Login</title>
     </head>
     <body>
-
+        
         <%-- Display header depending on selected functionality --%>
-        <h1> ${register ? "Register" : "Login"} </h2>
-
+        <div class="header">
+            <h1 class="headerTitle"> ${register ? "Register" : "Login"} </h1>
+        </div>
+        
+        <main>
         <c:if test="${invalid != null}">
+            <br>
             ${invalid} 
             <br>
         </c:if>
         <c:if test="${logout != null}">
+            <br>
             Logout successful 
             <br>
         </c:if>   
@@ -32,9 +38,9 @@
                     <br>
                     Last Name: <input type="text" name="lastName" value="${lastName}" required>
                     <br>
-                    E-mail: <input type="text" name="email" value="${email}" required>
+                   &ensp;&ensp;&emsp;E-mail: <input type="text" name="email" value="${email}" required>
                     <br>
-                    Password: <input type="password" name="password" value="${password}" required>
+                    &ensp;Password: <input type="password" name="password" value="${password}" required>
                     <br>
                     <input type="submit" name="action" value="Register">
                 </form>
@@ -49,9 +55,13 @@
             <c:otherwise>
                 <%-- User login --%>
                 <form method="post" action="login">
-                    E-mail: <input type="text" name="email" value="${email}" required>
+                    E-mail: 
                     <br>
-                    Password: <input type="password" name="password" value="${password}" required>
+                    <input type="text" name="email" value="${email}" required>
+                    <br><br>
+                    Password: 
+                    <br>
+                    <input type="password" name="password" value="${password}" required>
                     <br>
                     <input type="submit" name="action" value="Login">
                 </form>
@@ -63,6 +73,6 @@
                 </form>    
             </c:otherwise>
         </c:choose>
-
+        </main>
 </body>
 </html>
