@@ -14,7 +14,7 @@
         <nav>
             <ul>
                 <c:if test="${adminUser}">
-                    <li><a href="admin">Manage Users</a></li>
+                    <li><a href="admin">Manage Accounts</a></li>
                     <li><a href="admin">Manage Categories</a></li>
                 </c:if>
                 <li><a href="home">HOME nVentory</a></li>

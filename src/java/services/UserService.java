@@ -368,4 +368,24 @@ public class UserService {
         return accountUpdated;
     }
 
+    /**
+     * Remove user and their items from the database
+     * 
+     * @param email
+     * @return 
+     */
+    public static boolean deleteAccout(String email) {
+        User user = getUser(email);
+        
+        try {
+            new UserDB().deleteUser(user);
+            return true;
+            
+        } catch (Exception ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+
 }

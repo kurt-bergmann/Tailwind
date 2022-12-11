@@ -77,6 +77,9 @@ public class AdminServlet extends HttpServlet {
                     // reset user table
                     ArrayList<User> users = UserService.getAllUsers();
                     session.setAttribute("users", users);
+                    
+                    // Inform user of additon
+                    request.setAttribute("accountAdded", true);
                 }
                 break;
 
@@ -94,14 +97,28 @@ public class AdminServlet extends HttpServlet {
                     request.setAttribute("inputEmail", email);
                     request.setAttribute("inputFirstName", firstName);
                     request.setAttribute("inputLastName", lastName);
+                    request.setAttribute("editUser", true);
                 } else {
                     // reset user table
                     ArrayList<User> users = UserService.getAllUsers();
                     session.setAttribute("users", users);
+                    
+                    // Inform user of change
+                    request.setAttribute("accountChanged", true);
                 }
                 break;
 
             case ("Delete account"):
+                boolean accountDeleted = UserService.deleteAccout(email);
+                
+                if (accountDeleted) {
+                     // reset user table
+                    ArrayList<User> users = UserService.getAllUsers();
+                    session.setAttribute("users", users);
+                    
+                    // Inform user of change
+                    request.setAttribute("accountDeleted", true);
+                }
                 break;
 
             default:

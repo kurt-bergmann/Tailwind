@@ -10,7 +10,7 @@
 
         <nav>
             <ul>
-                <li><a href="admin">Manage Users</a></li>
+                <li><a href="admin">Manage Accounts</a></li>
                 <li><a href="admin">Manage Categories</a></li>
                 <li><a href="home">HOME nVentory</a></li>
                 <li><a href="account">Account</a></li>
@@ -18,7 +18,7 @@
             </ul>
         </nav>
 
-        <h1>Manage Users</h1>
+        <h1>Manage Accounts</h1>
 
         <%-- Inform the user if the database is empty --%>
         <c:if test="${users.size() == 0}">
@@ -143,9 +143,12 @@
 
                 <br><br>
 
-            <%-- Error message  --%>
-            ${emailAlreadyExists ? "E-mail already in use" : ""}
-
+            <%-- Error or action message  --%>
+            ${emailAlreadyExists ? "E-mail already in use <br> Or database could not be reached" : ""}
+            ${accountAdded ? "New account was successfully added" : ""}
+            ${accountChanged ? "Account changes saved" : ""}
+            ${accountDeleted ? "Account removed" : ""}
+            
         </form>
 
     </body>
