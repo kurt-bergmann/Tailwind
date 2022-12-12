@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <c:import url="style.jsp" />
-        <title>HOME nVentory Administrator Categories</title>
+        <title>HOME nVentory | Manage Categories</title>
     </head>
     <body>
 
@@ -21,7 +21,7 @@
         <main>
 
             <p class="userName">
-                Current user: ${userFirstName}
+                Current user: ${userFirstName} ${userLastName}
             </p>   
 
             <h1>Manage Categories</h1>

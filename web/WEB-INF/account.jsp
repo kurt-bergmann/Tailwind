@@ -6,7 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <c:import url="style.jsp" />
-        <title>HOME nVentory Account</title>
+        <title>HOME nVentory | Manage Account</title>
 
         <script>
             function confirmDeactivate() {
@@ -37,7 +37,7 @@
         <main>
 
             <p class="userName">
-                Current user: ${userFirstName}
+                Current user: ${userFirstName} ${userLastName}
             </p>   
 
             <h1>Account Settings</h1>
@@ -51,9 +51,9 @@
                 <h3>Name</h3>
                 ${nameResponse}
                 <p>
-                    First Name: <input type="text" name="firstName">
+                    First Name: <input type="text" name="firstName" value="${userFirstName}">
                     <br>
-                    Last Name: <input type="text" name="lastName">
+                    Last Name: <input type="text" name="lastName" value=" ${userLastName}">
                     <br>
                     <input type="submit" name="action" value="Change Name"> <input type="reset" value="Cancel">
                 </p>

@@ -25,8 +25,7 @@ public class UserService {
 
             // If there is a user in the DB with a matching username, check the validity of the
             // inputted password
-            // Also check if the user is active
-            if (user != null && user.getActive()) {
+            if (user != null) {
                 boolean passwordMatch = user.getPassword().equals(password);
 
                 // If the passwords match return the user's email

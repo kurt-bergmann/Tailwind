@@ -67,16 +67,17 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     // Check if the user is an admin
                     userRoleId = UserService.getUserRoleId(email);
+
+                    // Check if user account is active
+                    boolean userIsActive = UserService.checkActive(email);
+                    if (!userIsActive) {
+                        // A user can't log in to their account if it's inactive
+                        invalid = true;
+                        request.setAttribute("invalid", "This account has been deactivated<br>"
+                                + "Please contact a system administrator to reactivate your account");
+                    }
                 }
 
-                // Check if user account is active
-                boolean userIsActive = UserService.checkActive(email);
-                if (!userIsActive) {
-                    // A user can't log in to their account if it's inactive
-                    invalid = true;
-                    request.setAttribute("invalid", "This account has been deactivated<br>"
-                            + "Please contact a system administrator to reactivate your account");
-                }
                 break;
 
             case ("Register"):

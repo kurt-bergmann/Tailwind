@@ -26,7 +26,7 @@
 
         <main>
             <p class="userName">
-                Current user: ${userFirstName}
+                Current user: ${userFirstName} ${userLastName}
             </p>   
 
 
@@ -142,6 +142,9 @@
                 </c:when>
 
                 <c:otherwise>
+                    <p>
+                        You currently have no items in your inventory
+                    </p>
                     <button>
                         <a href="home?editInventory" style="text-decoration: none; color: black">
                             Create Inventory
