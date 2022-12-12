@@ -11,7 +11,7 @@
 
         <nav>
             <ul>
-                <li class="active"><a href="admin">Manage Accounts</a></li>
+                <li><a href="admin" class="active">Manage Accounts</a></li>
                 <li><a href="category">Manage Categories</a></li>
                 <li><a href="home">HOME nVentory</a></li>
                 <li><a href="account">Account</a></li>

@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li><a href="admin">Manage Accounts</a></li>
-                <li class="active"><a href="category">Manage Categories</a></li>
+                <li><a class="active" href="category">Manage Categories</a></li>
                 <li><a href="home">HOME nVentory</a></li>
                 <li><a href="account">Account</a></li>
                 <li style="float: right"><a href="login?logout">Logout</a></li>

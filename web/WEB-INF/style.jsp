@@ -12,7 +12,7 @@
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.479);
     }
 
-    ul, .header {
+    ul  {
         list-style-type: none;
         margin: 0 auto;
         max-width: 1220px;
@@ -22,9 +22,11 @@
     }
 
     .headerTitle {
+        margin: 0 auto;
+        padding: 1.5em 1em;
+        max-width: 1220px;
         display: block;
         color: #f4f3ee;
-        padding: 1em 0;
     }
 
     .userName {
@@ -46,12 +48,12 @@
         padding: 1em 1.5em;
     }
 
-    li :hover:not(.active) {
+    li a:hover:not(.active) {
         background-color: #e0afa0;
         color: #463f3a;
     }
 
-    li.active {
+    li a.active {
         background-color: #bcb8b1;
         color: #463f3a;
     }

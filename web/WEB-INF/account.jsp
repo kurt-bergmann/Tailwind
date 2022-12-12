@@ -28,7 +28,7 @@
                     <li><a href="category">Manage Categories</a></li>
                     </c:if>
                 <li><a href="home">HOME nVentory</a></li>
-                <li class="active"><a href="account">Account</a></li>
+                <li><a class="active" href="account">Account</a></li>
                 <li style="float: right"><a href="login?logout">Logout</a></li>
             </ul>
         </nav>

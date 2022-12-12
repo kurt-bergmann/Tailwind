@@ -13,7 +13,9 @@
         
         <%-- Display header depending on selected functionality --%>
         <div class="header">
-            <h1 class="headerTitle"> ${register ? "Register" : "Login"} </h1>
+            <div class="headerTitle">
+                 <h1> ${register ? "Register" : "Login"} </h1>
+            </div>
         </div>
         
         <main>
