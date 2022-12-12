@@ -87,7 +87,7 @@ public class LoginServlet extends HttpServlet {
                 invalid = (newUserEmail == null);
                 if (invalid) {
                     // Inform the user if their registration attempt failed
-                    request.setAttribute("invalid", "The e-mail you are using is already belongs to a user");
+                    request.setAttribute("invalid", "The e-mail you are using already belongs to a user");
 
                     // Keep the user on the register form
                     request.setAttribute("register", true);
